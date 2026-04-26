@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import { ActivityIndicator, FlatList, View, Text } from 'react-native';
+import { ActivityIndicator, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false)
+  const navigation = useNavigation();
 
   const getCategories = async () => {
     try {
@@ -46,9 +48,11 @@ const HomeScreen = () => {
           refreshing={refreshing}
           keyExtractor={({idCategory}) => idCategory}
           renderItem={({item}) => (
-            <Text>
-              {item.strCategory}
-            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Browse', {
+              categoryName: item.strCategory
+            })}>
+              <Text>{item.strCategory}</Text>
+            </TouchableOpacity>
           )}
         />
       )}
