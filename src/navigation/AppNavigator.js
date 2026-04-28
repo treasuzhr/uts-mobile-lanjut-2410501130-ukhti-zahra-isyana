@@ -2,6 +2,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../constants';
 
 import HomeScreen from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
@@ -25,7 +27,19 @@ function HomeStack() {
 
 function BottomTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={({ route }) => ({
+      headerShown: false,
+      tabBarActiveTintColor: COLORS.primary,
+      tabBarInactiveTintColor: COLORS.gray,
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+        if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
+        else if (route.name === 'Favorites') iconName = focused ? 'heart' : 'heart-outline';
+        else if (route.name === 'Search') iconName = focused ? 'search' : 'search-outline';
+        else if (route.name === 'About') iconName = focused ? 'person' : 'person-outline';
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+    })}>
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />

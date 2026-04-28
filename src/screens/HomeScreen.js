@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { ActivityIndicator, FlatList, TouchableOpacity, View, Text } from 'react-native';
+import { ActivityIndicator, FlatList, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../constants';
 
 const HomeScreen = () => {
   const [isLoading, setLoading] = useState(true);
@@ -33,25 +34,36 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1, padding: 24}}>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>🍽️ ResepKita</Text>
+        <Text style={styles.headerSubtitle}>Mau masak apa hari ini?</Text>
+      </View>
+
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color={COLORS.primary} style={{marginTop: 40}}/>
       ) : error ? (
-        <View>
-          <Text>{error}</Text>
-          <Text onPress={onRefresh}>Coba Lagi</Text>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={onRefresh}>
+            <Text style={styles.retryText}>Coba Lagi</Text>
+          </TouchableOpacity>
         </View>
       ) : (
-        <FlatList 
+        <FlatList
           data={data}
           onRefresh={onRefresh}
           refreshing={refreshing}
           keyExtractor={({idCategory}) => idCategory}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('Browse', {
-              categoryName: item.strCategory
-            })}>
-              <Text>{item.strCategory}</Text>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate('Browse', {
+                categoryName: item.strCategory
+              })}>
+              <Text style={styles.categoryName}>{item.strCategory}</Text>
             </TouchableOpacity>
           )}
         />
@@ -59,5 +71,71 @@ const HomeScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  header: {
+    backgroundColor: COLORS.primary,
+    padding: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
+  },
+  headerTitle: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#FFE0CC',
+    marginTop: 4,
+  },
+  row: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    marginTop: 12,
+  },
+  card: {
+    backgroundColor: COLORS.card,
+    borderRadius: 12,
+    padding: 20,
+    width: '48%',
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  categoryName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.text,
+    textAlign: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorText: {
+    color: COLORS.error,
+    fontSize: 16,
+    marginBottom: 12,
+  },
+  retryButton: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+});
 
 export default HomeScreen;
