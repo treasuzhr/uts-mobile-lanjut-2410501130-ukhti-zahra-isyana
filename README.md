@@ -31,11 +31,11 @@ Scan QR code dengan Expo Go di HP.
 ## Screenshot
 | Home | Browse | Detail |
 |------|--------|--------|
-| ![Home](screenshots/home.png) | ![Browse](screenshots/browse.png) | ![Detail](screenshots/detail.png) |
+| ![Home](screenshots/home.jpg) | ![Browse](screenshots/browse.jpg) | ![Detail](screenshots/detail.jpg) |
 
 | Favorites | Search | About |
 |-----------|--------|-------|
-| ![Favorites](screenshots/favorites.png) | ![Search](screenshots/search.png) | ![About](screenshots/about.png) |
+| ![Favorites](screenshots/favorites.jpg) | ![Search](screenshots/search.jpg) | ![About](screenshots/about.jpg) |
 
 ## Video Demo
 [Link Video Demo] (https://youtu.be/kb3jf2MAmM8?si=x3C3rZLdrbn2C24K)
